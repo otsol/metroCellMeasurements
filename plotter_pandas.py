@@ -1,9 +1,11 @@
 import os
 
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import pandas.errors
 
+# Add all files from "Otso" folder
 dna_tables = []
 for root, dirs, files in os.walk(os.path.abspath("./Otso")):
     for file in files:
@@ -28,10 +30,18 @@ print('Size is:' + str(df.shape))
 print(df.columns)
 df = df.sort_values(by=['time'])
 
-df.plot(kind='line', x='time', y='signal')
+# Create a boolean column to show where cell ID changes
+
+df['cell_change'] = df['cellid'] != df['cellid'].shift()
+df.to_csv("pd.csv", sep=';')
+df.plot(kind='line', x='time', y='signal', figsize=(20, 5))
+#df.plot(kind='line', x='time', y='signal')
 plt.xlabel('Unix timestamp time')
 plt.ylabel('Signal value in dBm')
+for index, row in df.iterrows():
+    if row['cell_change']:
+        plt.axvline(x=row['time'], color='r', linestyle='--', linewidth='0.3')
+# df.plot(y='signal')
 plt.savefig('data.png')
-#df.plot(y='signal')
-
 plt.show()
+
