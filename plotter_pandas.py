@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 import pandas.errors
 
 
-class OperatorDataSet:
-    def __init__(self, operator: str, folder_name):
-        self.operator = operator
-        df = pd.DataFrame()
+# class OperatorDataSet:
+#     def __init__(self, operator: str, folder_name):
+#         self.operator = operator
+#         df = pd.DataFrame()
 
 
 folders = ['./Otso', './Atif', './Juho']
