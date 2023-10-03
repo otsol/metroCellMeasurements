@@ -15,6 +15,7 @@ import pandas.errors
 
 folders = ['./Otso', './Atif', './Juho']
 operators = ['DNA', 'Elisa', 'Telia']
+terminals = {'Xiaomi_M2007J3SY':'Xiaomi Mi 10T 5G', 'Xiaomi_23021RAAEG':'Xiaomi Redmi Note 12', 'Samsung_SM-S911B':'Samsung Galaxy S23'}
 
 
 for index, folder in enumerate(folders):
@@ -42,6 +43,10 @@ for index, folder in enumerate(folders):
     print(df.columns)
     df = df.sort_values(by=['time'])
 
+    # Finding the device
+    terminal = df.iloc[1]['device']
+    device = terminals.get(terminal)
+
     # Create a boolean column to show where cell ID changes
     df['cell_change'] = df['cellid'] != df['cellid'].shift()
     df.to_csv(operators[index] + '.csv', sep=';')
@@ -49,6 +54,7 @@ for index, folder in enumerate(folders):
     colors_indict = {'DNA': '#ff1493', 'Elisa': '#0000ff', 'Telia': '#800080'}
     df.plot(kind='line', x='time', y='signal', figsize=(20, 5), color=[colors_indict.get(operators[index])])
     # df.plot(kind='line', x='time', y='signal')
+    plt.title('Operator: ' + operators[index] + ', Device: ' + device)
     plt.xlabel('Unix timestamp time')
     plt.ylabel('Signal value in dBm')
     for idx, row in df.iterrows():
