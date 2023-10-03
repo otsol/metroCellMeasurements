@@ -43,11 +43,11 @@ for index, folder in enumerate(folders):
     df = df.sort_values(by=['time'])
 
     # Create a boolean column to show where cell ID changes
-
     df['cell_change'] = df['cellid'] != df['cellid'].shift()
     df.to_csv(operators[index] + '.csv', sep=';')
     # Plot and save the graph
-    df.plot(kind='line', x='time', y='signal', figsize=(20, 5))
+    colors_indict = {'DNA': '#ff1493', 'Elisa': '#0000ff', 'Telia': '#800080'}
+    df.plot(kind='line', x='time', y='signal', figsize=(20, 5), color=[colors_indict.get(operators[index])])
     # df.plot(kind='line', x='time', y='signal')
     plt.xlabel('Unix timestamp time')
     plt.ylabel('Signal value in dBm')
@@ -55,6 +55,6 @@ for index, folder in enumerate(folders):
         if row['cell_change']:
             plt.axvline(x=row['time'], color='r', linestyle='--', linewidth='0.3')
     # df.plot(y='signal')
-    plt.legend(operators[index])
+    plt.legend([operators[index]], loc='upper right')
     plt.savefig(operators[index])
     plt.show()
