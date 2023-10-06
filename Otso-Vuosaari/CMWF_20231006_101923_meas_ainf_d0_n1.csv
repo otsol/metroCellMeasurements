@@ -1,0 +1,3 @@
+sim,radiotype,radio,mcc,mnc,area,cellid,unit,lat,lon,signal,extra,acc,time,speed,bearing,alt,api,device
+1,LTE,LTE,244,12,112,2152193,45,60.1845058,24.8250855,-88,,34.9,1696576754463,1.6,274.7,20.2,31,Xiaomi_M2007J3SY
+1,LTE,LTE,244,12,112,2152193,45,60.1844974,24.8249098,-88,,35.4,1696576759546,1.9,266.3,5.1,31,Xiaomi_M2007J3SY
