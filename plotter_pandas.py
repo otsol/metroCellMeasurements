@@ -28,7 +28,7 @@ for index, folder in enumerate(folders):
 
     # Create an empty DataFrame to save csv contents
     df = pd.DataFrame()
-    # Only read non empty files and add them to the DataFrame
+    # Only read non-empty files and add them to the DataFrame
     for file in tables:
         try:
             raw_data = pd.read_table(file, delimiter=',')
