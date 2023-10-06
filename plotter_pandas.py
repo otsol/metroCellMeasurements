@@ -62,14 +62,17 @@ for index, folder in enumerate(folders):
 
     # Plot and save the graph
     colors_indict = {'DNA': '#ff1493', 'Elisa': '#0000ff', 'Telia': '#800080'}
-    df.plot(kind='line', x='min_from_start', y='signal', figsize=(20, 5), color=[colors_indict.get(operators[index])])
+    df.plot(kind='line', x='min_from_start', y='signal', figsize=(20, 5), color=[colors_indict.get(operators[index])], label=operators[index])
     # df.plot(kind='line', x='time', y='signal')
     plt.title('Operator: ' + operators[index] + ', Device: ' + device)
     plt.xlabel('Minutes from start')
     plt.ylabel('Signal value in dBm')
     for idx, row in df.iterrows():
         if row['cell_change']:
-            plt.axvline(x=row['min_from_start'], color='r', linestyle='--', linewidth='0.3')
-    plt.legend([operators[index]],  loc='upper right')
+            plt.axvline(x=row['min_from_start'], color='r', linestyle='--', linewidth='0.3', label='handoff point')
+    handles, labels = plt.gca().get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    plt.legend(by_label.values(), by_label.keys(), loc='upper right')
+    #plt.legend([operators[index]],  loc='upper right')
     plt.savefig(graph_output_folder + operators[index] + str(index))
     plt.show()
