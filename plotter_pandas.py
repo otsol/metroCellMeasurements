@@ -2,11 +2,9 @@ import datetime
 import os
 
 # import typing
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import pandas.errors
-import pytz
 
 # class OperatorDataSet:
 #     def __init__(self, operator: str, folder_name):
@@ -54,11 +52,8 @@ for index, folder in enumerate(folders):
     # Create a boolean column to show where cell ID changes
     df['cell_change'] = df['cellid'] != df['cellid'].shift()
     # Create a column for displaying time in formatted way
-    # tz = pytz.utc
     df['formatted_time'] = df['time'].apply(
         lambda x: datetime.datetime.fromtimestamp(round(x / 1000)))
-    # df['formatted_time'] = df['time'].apply(lambda x: pd.Da(x, tz='Europe/Helsinki'))
-    # print(df.columns)
     df['min_from_start'] = df['formatted_time'].apply(
         lambda x: (x - df['formatted_time'].iloc[0]).total_seconds() / 60)
 
@@ -75,7 +70,6 @@ for index, folder in enumerate(folders):
     for idx, row in df.iterrows():
         if row['cell_change']:
             plt.axvline(x=row['min_from_start'], color='r', linestyle='--', linewidth='0.3')
-    # df.plot(y='signal')
     plt.legend([operators[index]],  loc='upper right')
     plt.savefig(graph_output_folder + operators[index] + str(index))
     plt.show()
