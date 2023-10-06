@@ -15,6 +15,7 @@ import pandas.errors
 
 folders = ['./Otso', './Atif', './Juho']
 operators = ['DNA', 'Elisa', 'Telia']
+terminals = {'Xiaomi_M2007J3SY':'Xiaomi Mi 10T 5G', 'Xiaomi_23021RAAEG':'Xiaomi Redmi Note 12', 'Samsung_SM-S911B':'Samsung Galaxy S23'}
 
 
 for index, folder in enumerate(folders):
@@ -42,19 +43,24 @@ for index, folder in enumerate(folders):
     print(df.columns)
     df = df.sort_values(by=['time'])
 
-    # Create a boolean column to show where cell ID changes
+    # Finding the device
+    terminal = df.iloc[1]['device']
+    device = terminals.get(terminal)
 
+    # Create a boolean column to show where cell ID changes
     df['cell_change'] = df['cellid'] != df['cellid'].shift()
     df.to_csv(operators[index] + '.csv', sep=';')
     # Plot and save the graph
-    df.plot(kind='line', x='time', y='signal', figsize=(20, 5))
+    colors_indict = {'DNA': '#ff1493', 'Elisa': '#0000ff', 'Telia': '#800080'}
+    df.plot(kind='line', x='time', y='signal', figsize=(20, 5), color=[colors_indict.get(operators[index])])
     # df.plot(kind='line', x='time', y='signal')
+    plt.title('Operator: ' + operators[index] + ', Device: ' + device)
     plt.xlabel('Unix timestamp time')
     plt.ylabel('Signal value in dBm')
     for idx, row in df.iterrows():
         if row['cell_change']:
             plt.axvline(x=row['time'], color='r', linestyle='--', linewidth='0.3')
     # df.plot(y='signal')
-    plt.legend(operators[index])
+    plt.legend([operators[index]], loc='upper right')
     plt.savefig(operators[index])
     plt.show()
